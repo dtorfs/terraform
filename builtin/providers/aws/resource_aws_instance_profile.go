@@ -1,4 +1,5 @@
 package aws
+
 import (
 	"fmt"
 	"log"
@@ -65,6 +66,7 @@ func resourceAwsInstanceProfileUpdate(d *schema.ResourceData, meta interface{}) 
 }
 
 func resourceAwsInstanceProfileRead(d *schema.ResourceData, meta interface{}) error {
+
 	iamconn := meta.(*AWSClient).iamconn
 
 	_, err := iamconn.GetInstanceProfile(&iam.GetInstanceProfileRequest{
