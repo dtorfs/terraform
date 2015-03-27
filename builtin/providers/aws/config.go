@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/aws-sdk-go/gen/rds"
 	"github.com/hashicorp/aws-sdk-go/gen/route53"
 	"github.com/hashicorp/aws-sdk-go/gen/s3"
+	"github.com/hashicorp/aws-sdk-go/gen/iam"
 )
 
 type Config struct {
@@ -30,6 +31,7 @@ type AWSClient struct {
 	r53conn         *route53.Route53
 	region          string
 	rdsconn         *rds.RDS
+        iamconn         *iam.IAM
 }
 
 // Client configures and returns a fully initailized AWSClient
@@ -62,6 +64,8 @@ func (c *Config) Client() (interface{}, error) {
 		client.s3conn = s3.New(creds, c.Region, nil)
 		log.Println("[INFO] Initializing RDS connection")
 		client.rdsconn = rds.New(creds, c.Region, nil)
+		log.Println("[INFO] Initializing IAM connection")
+		client.iamconn = iam.New(creds, c.Region, nil)
 
 		// aws-sdk-go uses v4 for signing requests, which requires all global
 		// endpoints to use 'us-east-1'.
